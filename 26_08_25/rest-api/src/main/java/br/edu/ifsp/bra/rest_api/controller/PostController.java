@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifsp.bra.rest_api.exception.BadRequest;
+import br.edu.ifsp.bra.rest_api.exception.NotFound;
 import br.edu.ifsp.bra.rest_api.model.Post;
 import br.edu.ifsp.bra.rest_api.service.PostService;
 
@@ -33,12 +35,12 @@ public class PostController {
     }
 
     @GetMapping("/postagens/{id}")
-    Optional<Post> one(@PathVariable int id) {
-        return this.postService.getById(id);
+    Optional<Post> one(@PathVariable int id) throws NotFound, BadRequest {
+        return this.postService.getPostById(id);
     }
 
     @PutMapping("/postagens/{id}")
-    Post replacePost(@RequestBody Post post, @PathVariable int id) {
+    Post replacePost(@RequestBody Post post, @PathVariable int id) throws NotFound, BadRequest {
         return this.postService.updatePost(post, id);
     }
 

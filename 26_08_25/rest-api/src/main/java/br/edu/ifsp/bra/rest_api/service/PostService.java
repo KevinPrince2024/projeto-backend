@@ -3,6 +3,8 @@ package br.edu.ifsp.bra.rest_api.service;
 import java.util.List;
 import java.util.Optional;
 
+import br.edu.ifsp.bra.rest_api.exception.BadRequest;
+import br.edu.ifsp.bra.rest_api.exception.NotFound;
 import br.edu.ifsp.bra.rest_api.model.Post;
 import br.edu.ifsp.bra.rest_api.repository.PostRepository;
 
@@ -21,12 +23,20 @@ public class PostService {
         return this.postRepository.create(post);
     }
 
-    public Optional<Post> getById(int id) {
-        return this.postRepository.getById(id);
+    public Optional<Post> getPostById(int id) throws NotFound, BadRequest {
+        if (id <= 0) throw new BadRequest("Id é requerido!");
+
+        Optional<Post> post = this.postRepository.getById(id);
+
+        if (post == null) throw new NotFound("Post não encontrado! Tente outro id");
+
+        return post;
     }
 
-    public Post updatePost(Post post, int id) {
-        return this.postRepository.updatePost(post, id);
+    public Post updatePost(Post post, int id) throws NotFound, BadRequest {
+        if (id <= 0) throw new BadRequest("Id é requerido!");
+
+        return this.postRepository.update(post, id);
     }
 
     public void deletePost(int id) {
