@@ -20,10 +20,14 @@ public class StarshipRepository extends BaseRepository<Starship> {
     }
 
     @Override
-    public Optional<Starship> findById(String id) {
-        return this.starships.stream()
+    public Optional<Starship> findById(String id) throws NotFound {
+        Optional<Starship> starship = this.starships.stream()
             .filter(d-> d.getId() == id)
             .findFirst();
+
+        if (starship == null) throw new NotFound("Nave não encontrada!");
+
+        return starship;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class StarshipRepository extends BaseRepository<Starship> {
     public Starship update(Starship starship) throws NotFound {
         int index = this.starships.indexOf(starship);
 
-        if (index <= 0) throw new NotFound("Post não encontrado!");
+        if (index <= 0) throw new NotFound("Nave não encontrado!");
 
         this.starships.set(index, starship);
 
@@ -45,8 +49,10 @@ public class StarshipRepository extends BaseRepository<Starship> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         int index = this.starships.indexOf(id);
+
+        if (index < 0) throw new NotFound("Nave não encontrado");
 
         this.starships.remove(index);
     }

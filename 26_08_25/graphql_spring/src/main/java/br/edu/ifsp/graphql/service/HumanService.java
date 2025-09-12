@@ -20,7 +20,7 @@ public class HumanService extends BaseService<Human> {
     }
 
     @Override
-    public Optional<Human> findById(String id) {
+    public Optional<Human> findById(String id) throws NotFound {
         return this.humanRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class HumanService extends BaseService<Human> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         this.humanRepository.delete(id);
     }
 }

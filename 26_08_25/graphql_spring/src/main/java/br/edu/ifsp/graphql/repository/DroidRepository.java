@@ -21,7 +21,7 @@ public class DroidRepository extends BaseRepository<Droid> {
     }
 
     @Override
-    public Optional<Droid> findById(String id) {
+    public Optional<Droid> findById(String id) throws NotFound {
         return this.droids.stream()
             .filter(d-> d.getId() == id)
             .findFirst();
@@ -46,8 +46,10 @@ public class DroidRepository extends BaseRepository<Droid> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         int index = this.droids.indexOf(id);
+
+        if (index < 0) throw new NotFound("Droid não encontrado!");
 
         this.droids.remove(index);
     }

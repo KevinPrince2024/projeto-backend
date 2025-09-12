@@ -20,10 +20,14 @@ public class HumanRepository extends BaseRepository<Human> {
     }
 
     @Override
-    public Optional<Human> findById(String id) {
-        return this.humans.stream()
+    public Optional<Human> findById(String id) throws NotFound {
+        Optional<Human> human = this.humans.stream()
             .filter(d-> d.getId() == id)
             .findFirst();
+
+        if (human == null) throw new NotFound("Humano não encontrado!");
+
+        return human;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class HumanRepository extends BaseRepository<Human> {
     public Human update(Human human) throws NotFound {
         int index = this.humans.indexOf(human);
 
-        if (index <= 0) throw new NotFound("Post não encontrado!");
+        if (index <= 0) throw new NotFound("Humano não encontrado!");
 
         this.humans.set(index, human);
 
@@ -45,8 +49,10 @@ public class HumanRepository extends BaseRepository<Human> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         int index = this.humans.indexOf(id);
+
+        if (index < 0) throw new NotFound("Humano não encontrado!");
 
         this.humans.remove(index);
     }    

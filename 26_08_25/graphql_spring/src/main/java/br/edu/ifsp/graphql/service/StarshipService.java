@@ -20,7 +20,7 @@ public class StarshipService extends BaseService<Starship> {
     }
 
     @Override
-    public Optional<Starship> findById(String id) {
+    public Optional<Starship> findById(String id) throws NotFound {
         return this.starshipRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class StarshipService extends BaseService<Starship> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         this.starshipRepository.delete(id);
     }
 }

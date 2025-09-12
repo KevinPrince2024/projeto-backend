@@ -20,7 +20,7 @@ public class DroidService extends BaseService<Droid> {
     }
 
     @Override
-    public Optional<Droid> findById(String id) {
+    public Optional<Droid> findById(String id) throws NotFound {
         return this.droidRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class DroidService extends BaseService<Droid> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFound {
         this.droidRepository.delete(id);
     }
 }
